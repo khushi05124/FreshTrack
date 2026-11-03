@@ -1,155 +1,256 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FreshTrack | Smart Food Expiry Tracker</title>
+  <title>FreshTrack - Smart Food Expiry Tracker</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#">
-      <span class="brand-icon">🥬</span>
-      <span>Fresh<span class="green">Track</span></span>
-    </a>
-    <span class="tagline">Smart food. Less waste.</span>
-  </header>
 
-  <main class="container">
-    <section class="welcome">
-      <div>
-        <p class="eyebrow">YOUR SMART KITCHEN</p>
-        <h1>Food Inventory</h1>
-        <p class="subtitle">Keep track of your food. Waste less, save more.</p>
+  <!-- LOGIN / SIGNUP -->
+  <section id="authSection" class="auth-page">
+    <div class="auth-card">
+      <div class="brand-icon">🥬</div>
+      <h1>FreshTrack</h1>
+      <p class="subtitle">Smart Food Expiry Tracker</p>
+
+      <form id="loginForm">
+        <h2>Welcome Back!</h2>
+        <label>Email</label>
+        <input type="email" id="loginEmail" required placeholder="Enter your email">
+
+        <label>Password</label>
+        <input type="password" id="loginPassword" required placeholder="Enter password">
+
+        <button type="submit" class="primary-button">Login</button>
+        <p id="loginMessage" class="message"></p>
+        <p class="switch-text">
+          Don't have an account?
+          <a href="#" id="showSignup">Sign up</a>
+        </p>
+      </form>
+
+      <form id="signupForm" class="hidden">
+        <h2>Create Account</h2>
+        <label>Email</label>
+        <input type="email" id="signupEmail" required placeholder="Enter your email">
+
+        <label>Password</label>
+        <input type="password" id="signupPassword" required minlength="6"
+               placeholder="At least 6 characters">
+
+        <button type="submit" class="primary-button">Create Account</button>
+        <p id="signupMessage" class="message"></p>
+        <p class="switch-text">
+          Already have an account?
+          <a href="#" id="showLogin">Login</a>
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- MAIN APPLICATION -->
+  <section id="appSection" class="app-layout hidden">
+
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-icon-small">🥬</span>
+        <div>
+          <h2>FreshTrack</h2>
+          <p>Smart Food Tracker</p>
+        </div>
       </div>
-      <span class="welcome-icon">🥑</span>
-    </section>
 
-    <section class="stats">
-      <article class="stat-card">
-        <span class="stat-icon">🧺</span>
-        <p>Total Items</p>
-        <h2 id="totalCount">0</h2>
-      </article>
-      <article class="stat-card fresh-card">
-        <span class="stat-icon">🌿</span>
-        <p>Fresh</p>
-        <h2 id="freshCount">0</h2>
-      </article>
-      <article class="stat-card soon-card">
-        <span class="stat-icon">⏳</span>
-        <p>Expiring Soon</p>
-        <h2 id="soonCount">0</h2>
-      </article>
-      <article class="stat-card expired-card">
-        <span class="stat-icon">⚠️</span>
-        <p>Expired</p>
-        <h2 id="expiredCount">0</h2>
-      </article>
-    </section>
+      <p class="nav-heading">MENU</p>
 
-    <section class="content-grid">
-      <section class="panel form-panel">
-        <h2 id="formHeading">➕ Add Food Item</h2>
-        <p class="panel-subtitle">Enter your food details below.</p>
+      <button class="nav-link active" data-page="addPage">
+        <span>➕</span> Add Inventory
+      </button>
 
-        <form id="foodForm">
-          <label for="foodName">Food name</label>
-          <input id="foodName" type="text" placeholder="e.g. Milk" required maxlength="80">
+      <button class="nav-link" data-page="overviewPage">
+        <span>📊</span> Inventory Overview
+      </button>
 
-          <label for="category">Category</label>
-          <select id="category" required>
-            <option value="Dairy">🥛 Dairy</option>
-            <option value="Fruits">🍎 Fruits</option>
-            <option value="Vegetables">🥦 Vegetables</option>
-            <option value="Meat & Fish">🐟 Meat & Fish</option>
-            <option value="Grains">🌾 Grains</option>
-            <option value="Beverages">🧃 Beverages</option>
-            <option value="Other">📦 Other</option>
-          </select>
+      <div class="sidebar-bottom">
+        <button id="logoutButton" class="logout-button">
+          ↪ Logout
+        </button>
+      </div>
+    </aside>
 
-          <div class="two-columns">
-            <div>
-              <label for="quantity">Quantity</label>
-              <input id="quantity" type="number" min="0.01" step="any" value="1" required>
+    <main class="main-content">
+
+      <!-- ADD INVENTORY PAGE -->
+      <section id="addPage" class="page-section">
+        <div class="page-header">
+          <div>
+            <p class="eyebrow">FRESHTRACK / INVENTORY</p>
+            <h1>Add Inventory</h1>
+            <p>Add food details and keep track of expiry dates.</p>
+          </div>
+        </div>
+
+        <div class="form-panel">
+          <div class="panel-heading">
+            <h2 id="formHeading">➕ Add Food Item</h2>
+            <p>Enter your food details below.</p>
+          </div>
+
+          <form id="foodForm">
+            <div class="form-group">
+              <label for="foodName">Food name</label>
+              <input type="text" id="foodName" required
+                     placeholder="e.g. Milk">
             </div>
-            <div>
-              <label for="unit">Unit</label>
-              <select id="unit">
-                <option value="pieces">Pieces</option>
-                <option value="packets">Packets</option>
-                <option value="kg">Kg</option>
-                <option value="g">Grams</option>
-                <option value="litres">Litres</option>
-                <option value="ml">Millilitres</option>
+
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" required>
+                <option value="Dairy">🥛 Dairy</option>
+                <option value="Fruits">🍎 Fruits</option>
+                <option value="Vegetables">🥦 Vegetables</option>
+                <option value="Meat">🍗 Meat</option>
+                <option value="Bakery">🍞 Bakery</option>
+                <option value="Beverages">🧃 Beverages</option>
+                <option value="Other">📦 Other</option>
               </select>
             </div>
-          </div>
 
-          <label for="purchaseDate">Purchase date</label>
-          <input id="purchaseDate" type="date" required>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" min="0.01"
+                       step="any" value="1" required>
+              </div>
 
-          <label for="expiryDate">Expiry date</label>
-          <input id="expiryDate" type="date" required>
+              <div class="form-group">
+                <label for="unit">Unit</label>
+                <select id="unit" required>
+                  <option value="Pieces">Pieces</option>
+                  <option value="Kg">Kg</option>
+                  <option value="Grams">Grams</option>
+                  <option value="Litres">Litres</option>
+                  <option value="ml">ml</option>
+                  <option value="Packets">Packets</option>
+                  <option value="Bottles">Bottles</option>
+                </select>
+              </div>
+            </div>
 
-          <button class="primary-button" id="saveButton" type="submit">
-            Add Food Item
-          </button>
-          <button class="secondary-button hidden" id="cancelButton" type="button">
-            Cancel Edit
-          </button>
-          <p id="formMessage" class="message" role="status"></p>
-        </form>
+            <div class="form-group">
+              <label for="purchaseDate">Purchase date</label>
+              <input type="date" id="purchaseDate" required>
+            </div>
+
+            <div class="form-group">
+              <label for="expiryDate">Expiry date</label>
+              <input type="date" id="expiryDate" required>
+            </div>
+
+            <p id="formMessage" class="message"></p>
+
+            <div class="form-buttons">
+              <button type="submit" id="saveButton" class="primary-button">
+                Add Food Item
+              </button>
+              <button type="button" id="cancelButton"
+                      class="secondary-button hidden">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       </section>
 
-      <section class="panel inventory-panel">
-        <div class="inventory-heading">
+      <!-- INVENTORY OVERVIEW PAGE -->
+      <section id="overviewPage" class="page-section hidden">
+
+        <div class="page-header">
           <div>
-            <h2>🥗 Your Inventory</h2>
-            <p class="panel-subtitle">Manage your stored food items.</p>
+            <p class="eyebrow">FRESHTRACK / OVERVIEW</p>
+            <h1>Inventory Overview</h1>
+            <p>Monitor your food items and their expiry status.</p>
           </div>
-          <button id="refreshButton" class="refresh-button" type="button" title="Refresh inventory">↻</button>
+          <button id="refreshButton" class="refresh-button">↻ Refresh</button>
         </div>
 
-        <div class="filters">
-          <input id="searchInput" type="search" placeholder="🔍 Search food...">
-          <select id="statusFilter" aria-label="Filter by expiry status">
-            <option value="All">All statuses</option>
-            <option value="Fresh">Fresh</option>
-            <option value="Expiring Soon">Expiring Soon</option>
-            <option value="Expired">Expired</option>
-          </select>
+        <!-- STATISTICS -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>🧺</span>
+            <p>Total Items</p>
+            <h2 id="totalCount">0</h2>
+          </div>
+
+          <div class="stat-card">
+            <span>🌿</span>
+            <p>Fresh</p>
+            <h2 id="freshCount">0</h2>
+          </div>
+
+          <div class="stat-card">
+            <span>⌛</span>
+            <p>Expiring Soon</p>
+            <h2 id="soonCount">0</h2>
+          </div>
+
+          <div class="stat-card">
+            <span>⚠️</span>
+            <p>Expired</p>
+            <h2 id="expiredCount">0</h2>
+          </div>
         </div>
 
-        
-<!-- Smart expiry insights -->
-<section class="insights-panel">
-  <h3>🔔 Expiry Alerts</h3>
-  <div id="expiryAlerts" class="expiry-alerts"></div>
+        <!-- INVENTORY LIST -->
+        <div class="inventory-panel">
+          <div class="panel-heading">
+            <h2>🥗 Your Inventory</h2>
+            <p>Manage your stored food items.</p>
+          </div>
 
-  <div class="use-first-heading">
-    <h3>⏳ Use First</h3>
-    <span class="insight-note">Expiring within 7 days</span>
-  </div>
+          <div class="filter-row">
+            <input type="search" id="searchInput"
+                   placeholder="Search food or category...">
 
-  <div id="useFirstList" class="use-first-list"></div>
-</section>
+            <select id="statusFilter">
+              <option value="All">All statuses</option>
+              <option value="Fresh">Fresh</option>
+              <option value="Expiring Soon">Expiring Soon</option>
+              <option value="Expired">Expired</option>
+            </select>
+          </div>
 
+          <p id="loadingMessage" class="message">Loading inventory...</p>
+          <p id="emptyMessage" class="empty-message hidden">
+            No food items found. Add your first item! 🌱
+          </p>
 
-        <p id="loadingMessage" class="loading">Connecting to FreshTrack...</p>
-        <div id="foodList" class="food-list"></div>
-        <p id="emptyMessage" class="empty-message hidden">No food items found. Add your first item! 🌱</p>
+          <div id="foodList" class="food-list"></div>
+        </div>
+
+        <!-- EXPIRY ALERTS -->
+        <div class="insights-panel">
+          <h2>🔔 Expiry Alerts</h2>
+          <div id="expiryAlerts" class="alerts-grid"></div>
+
+          <div class="use-first-heading">
+            <h2>⌛ Use First</h2>
+            <span>Expiring within 7 days</span>
+          </div>
+
+          <div id="useFirstList"></div>
+        </div>
+
       </section>
-    </section>
+    </main>
+  </section>
 
-    <footer>FreshTrack · Track expiry. Reduce food waste. 🌍</footer>
-  </main>
-
-  <!-- Firebase JavaScript SDK -->
+  <!-- Firebase libraries -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
